@@ -1,0 +1,24 @@
+{
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "concurrently \"npm run dev-game\" \"npm run dev-server\"",
+        "dev-server": "nodemon src/index.js",
+        "dev-game": "parcel watch src/game/index.html --dist-dir \"src/public\" --public-url \".\"",
+        "build-game": "parcel build src/game/index.html --dist-dir \"src/public\" --public-url \".\"",
+        "build-game-docs": "parcel build src/game/index.html --dist-dir \"docs\" --public-url \".\""
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "src/game/*"
+        ]
+    },
+    "devDependencies": {
+        "concurrently": "^6.3.0",
+        "nodemon": "^2.0.13",
+        "parcel": "latest"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "phaser": "^3.55.2"
+    }
+}
