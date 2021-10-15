@@ -1,5 +1,5 @@
 html, body {
-    background-color: #fff159;
+    background: linear-gradient(135deg, rgb(39, 45, 91) 20%, rgb(78, 5, 40)) fixed rgb(39, 45, 91)
 }
 
 canvas {
@@ -7,6 +7,11 @@ canvas {
     margin: auto;
     -webkit-box-shadow: 0px 2px 15px -3px #000000;
     box-shadow: 0px 2px 15px -3px #000000;
+}
+
+#canvas {
+    padding-top: 20px;
+    height: 85%;
 }
 
 .credits {
@@ -18,7 +23,9 @@ canvas {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
     margin-bottom: 30px;
+    color: white;
 }
 
 .credits a {

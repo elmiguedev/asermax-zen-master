@@ -7,7 +7,6 @@ import StartScene from "./scenes/start.scene";
 export default new Game({
     type: Phaser.AUTO,
     scale: {
-        mode: Phaser.Scale.FIT,
         parent: document.getElementById("canvas"),
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 480,
