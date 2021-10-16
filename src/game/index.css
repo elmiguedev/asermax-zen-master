@@ -23,8 +23,7 @@ canvas {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  padding-top: 10px;
   color: white;
 }
 
@@ -72,10 +71,7 @@ canvas {
     margin-bottom: 10px;
   }
   #canvas {
-    margin-top: 80px;
+    margin-top: 20px;
     height: auto !important;
-  }
-  .credits {
-    margin: 0;
   }
 }
