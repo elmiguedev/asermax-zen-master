@@ -6,12 +6,8 @@ import StartScene from "./scenes/start.scene";
 
 export default new Game({
     type: Phaser.AUTO,
-    scale: {
-        parent: document.getElementById("canvas"),
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 480,
-        height: 640
-    },
+    width: 480,
+    height: 640,
     physics: {
         default: "arcade",
         arcade: {
