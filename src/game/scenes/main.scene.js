@@ -13,6 +13,7 @@ export default class MainScene extends Scene {
     this.createAnimations();
     this.createBackground();
     this.createScore();
+    this.createBurnout();
     this.createAsermax();
     this.createZenMark();
     this.createZenBall();
@@ -33,9 +34,10 @@ export default class MainScene extends Scene {
   // ---------------------
 
   createProperties() {
-    this.zenSpeed = 0.05;
-    this.zenMarkWidth = 30;
-    this.zenIncreaseSpeed = 0.001;
+    this.zenSpeed = 0.08;
+    this.zenMarkWidth = 60;
+    this.zenIncreaseSpeed = 0.003;
+    this.burnoutIncreaseSpeed = 40;
     this.score = 0;
   }
 
@@ -58,6 +60,39 @@ export default class MainScene extends Scene {
 
   createBackground() {
 
+  }
+
+  createBurnout() {
+    this.burnout = this.add.rectangle(
+      0,
+      this.game.canvas.height,
+      this.game.canvas.width,
+      this.game.canvas.height + this.burnoutIncreaseSpeed,
+      0xff0000
+    );
+    this.burnout.setOrigin(0);
+    this.burnout.setAlpha(0.5);
+  }
+
+  increaseBurnout() {
+    this.tweens.add({
+      targets: this.burnout,
+      ease: "Power1",
+      duration: 500,
+      y: {
+        from: this.burnout.y,
+        to: this.burnout.y - this.burnoutIncreaseSpeed
+      },
+      onComplete: () => {
+        this.checkBurnout();
+      }
+    })
+  }
+
+  checkBurnout() {
+    if (this.burnout.y <= 0) {
+      this.gameover();
+    }
   }
 
   createAsermax() {
@@ -111,8 +146,10 @@ export default class MainScene extends Scene {
     if (this.checkZen()) {
       this.score++;
       this.updateScore();
+      this.invertZenBall();
+    } else {
+      this.increaseBurnout();
     }
-    this.invertZenBall();
   }
 
   createControls() {
@@ -125,6 +162,12 @@ export default class MainScene extends Scene {
     // mouse / touch option
     this.input.on('pointerdown', (pointer) => {
       this.zen();
+    });
+  }
+
+  gameover() {
+    this.scene.start("GameoverScene", {
+      score: this.score
     });
   }
 }
