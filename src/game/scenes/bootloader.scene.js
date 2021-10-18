@@ -2,27 +2,31 @@ import Phaser, { Scene } from "phaser";
 import musicMp3 from "../assets/sounds/music.mp3";
 import introMp3 from "../assets/sounds/intro.mp3";
 import gameoverMp3 from "../assets/sounds/gameover.mp3";
+import zenMp3 from "../assets/sounds/zen.mp3";
+import zenFailMp3 from "../assets/sounds/zen_fail_2.mp3";
 
 import cosoPng from "../assets/img/coso.png";
 
 export default class BootloaderScene extends Scene {
-    constructor() {
-        super("BootloaderScene");
-    }
+  constructor() {
+    super("BootloaderScene");
+  }
 
-    preload() {
+  preload() {
 
-        this.load.audio("intro", [introMp3]);
-        this.load.audio("gameover", [gameoverMp3]);
-        this.load.audio("music", [musicMp3]);
+    this.load.audio("intro", [introMp3]);
+    this.load.audio("gameover", [gameoverMp3]);
+    this.load.audio("music", [musicMp3]);
+    this.load.audio("zen", [zenMp3]);
+    this.load.audio("zenFail", [zenFailMp3]);
 
-        this.load.image("coso", cosoPng);
+    this.load.image("coso", cosoPng);
 
-        this.load.on("complete", () => {
-            this.scene.start("StartScene");
-        });
-    }
+    this.load.on("complete", () => {
+      this.scene.start("StartScene");
+    });
+  }
 
-    create() {
-    }
+  create() {
+  }
 }

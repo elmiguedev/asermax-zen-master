@@ -59,7 +59,7 @@ export default class MainScene extends Scene {
   }
 
   createBackground() {
-
+    this.sound.play("music");
   }
 
   createBurnout() {
@@ -147,8 +147,10 @@ export default class MainScene extends Scene {
       this.score++;
       this.updateScore();
       this.invertZenBall();
+      this.sound.play("zen");
     } else {
       this.increaseBurnout();
+      this.sound.play("zenFail");
     }
   }
 
@@ -166,6 +168,7 @@ export default class MainScene extends Scene {
   }
 
   gameover() {
+    this.sound.stopAll();
     this.scene.start("GameoverScene", {
       score: this.score
     });
