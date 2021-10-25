@@ -6,6 +6,11 @@ import zenMp3 from "../assets/sounds/zen.mp3";
 import zenFailMp3 from "../assets/sounds/zen_fail_2.mp3";
 
 import cosoPng from "../assets/img/coso.png";
+import asermaxPng from "../assets/img/asermax.png";
+import backgroundPng from "../assets/img/background.png";
+import zenBallPng from "../assets/img/zenBall.png";
+import zenMarkPng from "../assets/img/zenMark.png";
+import firePng from "../assets/img/fire.png";
 
 export default class BootloaderScene extends Scene {
   constructor() {
@@ -21,6 +26,17 @@ export default class BootloaderScene extends Scene {
     this.load.audio("zenFail", [zenFailMp3]);
 
     this.load.image("coso", cosoPng);
+    this.load.image("asermax", asermaxPng);
+    this.load.image("background", backgroundPng);
+    this.load.image("zenBall", zenBallPng);
+    this.load.spritesheet("zenMark", zenMarkPng, {
+      frameWidth: 256,
+      frameHeight: 140
+    })
+    this.load.spritesheet("fire", firePng, {
+      frameWidth: 480,
+      frameHeight: 180
+    })
 
     this.load.on("complete", () => {
       this.scene.start("StartScene");

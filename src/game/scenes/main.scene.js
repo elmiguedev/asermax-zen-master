@@ -26,7 +26,7 @@ export default class MainScene extends Scene {
       [this.zenBall],
       { x: this.asermax.x, y: this.asermax.y },
       this.zenSpeed,
-      120
+      180
     );
   }
 
@@ -42,7 +42,15 @@ export default class MainScene extends Scene {
   }
 
   createAnimations() {
-
+    this.anims.create({
+      key: "zenMark_active",
+      frames: this.anims.generateFrameNames("zenMark")
+    });
+    this.anims.create({
+      key: "fire",
+      frameRate: 6,
+      frames: this.anims.generateFrameNames("fire")
+    });
   }
 
   createScore() {
@@ -60,18 +68,24 @@ export default class MainScene extends Scene {
 
   createBackground() {
     this.sound.play("music");
+    this.add.image(0, 0, "background").setOrigin(0);
   }
 
   createBurnout() {
-    this.burnout = this.add.rectangle(
+    this.burnout = this.add.sprite(
       0,
-      this.game.canvas.height,
+      this.game.canvas.height - 40,
+      "fire"
+    ).setOrigin(0).setAlpha(0.8).play({ key: "fire", repeat: -1 });
+    this.burnoutBackground = this.add.rectangle(
+      0,
+      this.game.canvas.height + 140,
       this.game.canvas.width,
       this.game.canvas.height + this.burnoutIncreaseSpeed,
-      0xff0000
+      0xff8318
     );
-    this.burnout.setOrigin(0);
-    this.burnout.setAlpha(0.5);
+    this.burnoutBackground.setOrigin(0);
+    this.burnoutBackground.setAlpha(0.8);
   }
 
   increaseBurnout() {
@@ -87,10 +101,22 @@ export default class MainScene extends Scene {
         this.checkBurnout();
       }
     })
+    this.tweens.add({
+      targets: this.burnoutBackground,
+      ease: "Power1",
+      duration: 500,
+      y: {
+        from: this.burnoutBackground.y,
+        to: this.burnoutBackground.y - this.burnoutIncreaseSpeed
+      },
+      onComplete: () => {
+        this.checkBurnout();
+      }
+    })
   }
 
   checkBurnout() {
-    if (this.burnout.y <= 0) {
+    if (this.burnout.y <= -100) {
       this.gameover();
     }
   }
@@ -98,28 +124,26 @@ export default class MainScene extends Scene {
   createAsermax() {
     const x = this.game.canvas.width / 2;
     const y = this.game.canvas.height / 2;
-    this.asermax = this.add.rectangle(
+    this.asermax = this.add.sprite(
       x,
       y,
-      80,
-      120,
-      0xffffff
-    )
+      "asermax"
+    );
   }
 
   createZenMark() {
     const x = this.asermax.x;
-    const y = this.asermax.y - 120;
+    const y = this.asermax.y - 180;
 
-    this.zenMark = this.add.rectangle(
-      x, y, this.zenMarkWidth, this.zenMarkWidth, 0x00ff00
+    this.zenMark = this.add.sprite(
+      x, y, "zenMark"
     );
   }
 
   createZenBall() {
     const x = this.asermax.x;
-    const y = this.asermax.y - 120;
-    this.zenBall = this.physics.add.sprite(x, y, "coso");
+    const y = this.asermax.y - 180;
+    this.zenBall = this.physics.add.sprite(x, y, "zenBall");
   }
 
   invertZenBall() {
@@ -148,6 +172,7 @@ export default class MainScene extends Scene {
       this.updateScore();
       this.invertZenBall();
       this.sound.play("zen");
+      this.zenMark.play("zenMark_active");
     } else {
       this.increaseBurnout();
       this.sound.play("zenFail");
