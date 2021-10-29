@@ -6,7 +6,8 @@ export default class StartScene extends Phaser.Scene {
   }
 
   create() {
-    this.createFace();
+    this.createBackground();
+    this.createProta();
     this.createIntroText();
     this.createInstructionsText();
     this.createKeysText();
@@ -14,11 +15,34 @@ export default class StartScene extends Phaser.Scene {
     this.createMusic();
   }
 
-  createFace() {
-    // aca va la cara del prota 
+  createBackground() {
+    this.background = this.add.image(
+      0,
+      0,
+      "background",
+    ).setOrigin(0);
+  }
 
-    // this.face = this.add.image(240, 200, "marvin_rage_1");
-    // this.face.setScale(2);
+  createProta() {
+    const x = this.game.canvas.width / 2;
+    const y = this.game.canvas.height / 2
+    this.asermax = this.add.image(
+      x,
+      y,
+      "asermax"
+    );
+
+    this.tweens.add({
+      targets: this.asermax,
+      ease: "Sine.easeInOut",
+      y: {
+        from: this.asermax.y,
+        to: this.asermax.y - 5
+      },
+      duration: 2000,
+      repeat: -1,
+      yoyo: true
+    })
   }
 
   createIntroText() {
