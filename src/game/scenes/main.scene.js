@@ -11,23 +11,30 @@ export default class MainScene extends Scene {
   create() {
     this.createProperties();
     this.createAnimations();
+    this.createOpacityContainer();
     this.createBackground();
     this.createScore();
     this.createBurnout();
     this.createAsermax();
     this.createZenMark();
-    this.createZenBall();
-    this.createControls();
+
+    this.showScene(() => {
+      this.createZenBall();
+      this.createControls();
+
+    });
   }
 
   update() {
 
-    Phaser.Actions.RotateAroundDistance(
-      [this.zenBall],
-      { x: this.asermax.x, y: this.asermax.y },
-      this.zenSpeed,
-      180
-    );
+    if (this.zenBall) {
+      Phaser.Actions.RotateAroundDistance(
+        [this.zenBall],
+        { x: this.asermax.x, y: this.asermax.y },
+        this.zenSpeed,
+        180
+      );
+    }
   }
 
   // creation methods
@@ -53,13 +60,23 @@ export default class MainScene extends Scene {
     });
   }
 
+  createOpacityContainer() {
+    this.opacityContainer = this.add.group();
+  }
+
   createScore() {
     this.scoreText = this.add.text(
       this.game.canvas.width / 2,
       20,
-      "Zen points: 0"
+      "Zen points: 0",
+      {
+        fontFamily: "'pxll'",
+        fontSize: 32,
+        color: "#000000",
+      }
     );
     this.scoreText.setOrigin(0.5);
+    this.opacityContainer.add(this.scoreText);
   }
 
   updateScore() {
@@ -138,6 +155,8 @@ export default class MainScene extends Scene {
     this.zenMark = this.add.sprite(
       x, y, "zenMark"
     );
+
+    this.opacityContainer.add(this.zenMark);
   }
 
   createZenBall() {
@@ -197,5 +216,19 @@ export default class MainScene extends Scene {
     this.scene.start("GameoverScene", {
       score: this.score
     });
+  }
+
+  showScene(callback) {
+    this.tweens.add({
+      targets: this.opacityContainer.children.getArray(),
+      alpha: {
+        from: 0,
+        to: 1
+      },
+      duration: 1000,
+      onComplete: () => {
+        callback();
+      }
+    })
   }
 }
