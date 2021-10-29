@@ -5,7 +5,7 @@ export default class MainScene extends Scene {
     super("MainScene");
   }
 
-  // game loop methods
+  // game loop methodss
   // ---------------------
 
   create() {
