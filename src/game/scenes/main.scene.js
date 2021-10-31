@@ -44,7 +44,7 @@ export default class MainScene extends Scene {
     this.zenSpeed = 0.08;
     this.zenMarkWidth = 60;
     this.zenIncreaseSpeed = 0.003;
-    this.burnoutIncreaseSpeed = 40;
+    this.burnoutIncreaseSpeed = 400;
     this.score = 0;
   }
 
@@ -106,6 +106,7 @@ export default class MainScene extends Scene {
   }
 
   increaseBurnout() {
+    this.cameras.main.shake(100,0.03);
     this.tweens.add({
       targets: this.burnout,
       ease: "Power1",
@@ -133,7 +134,7 @@ export default class MainScene extends Scene {
   }
 
   checkBurnout() {
-    if (this.burnout.y <= -100) {
+    if (this.burnout.y <= -150) {
       this.gameover();
     }
   }

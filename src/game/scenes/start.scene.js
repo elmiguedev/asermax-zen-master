@@ -137,7 +137,11 @@ export default class StartScene extends Phaser.Scene {
 
   createControls() {
     this.enter = this.input.keyboard.addKey("enter");
+    this.space = this.input.keyboard.addKey("space");
     this.enter.onDown = (e) => {
+      this.start();
+    }
+    this.space.onDown = (e) => {
       this.start();
     }
   }
