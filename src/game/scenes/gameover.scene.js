@@ -108,19 +108,25 @@ export default class GameoverScene extends Phaser.Scene {
   createInstructionsText() {
     const text = this.add.text(
       240,
-      640,
-      `Presiona sobre la pantalla para darle a Asermax una nueva oportunidad de alinear sus chakras de Asermax`,
+      580,
+      `REINTENTAR`,
       {
         fontFamily: "'pxll'",
         fontSize: 32,
-        color: "#000000"
+        color: "#000000",
+        backgroundColor: "white",
+        padding: 16,
+        fixedWidth: 300
       }
     );
     text.setAlpha(0.7);
     text.setAlign("center");
-    text.setWordWrapWidth(350);
     text.setOrigin(0.5);
-    text.setLineSpacing(10);
+    text.setInteractive({ cursor: "pointer" });
+    text.on("pointerdown", () => {
+      this.start();
+    })
+
     this.opacityContainer.add(text);
 
   }
