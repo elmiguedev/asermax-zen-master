@@ -108,7 +108,7 @@ export default class GameoverScene extends Phaser.Scene {
   createInstructionsText() {
     const text = this.add.text(
       240,
-      580,
+      600,
       `REINTENTAR`,
       {
         fontFamily: "'pxll'",
