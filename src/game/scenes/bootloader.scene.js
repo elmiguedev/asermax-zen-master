@@ -14,6 +14,8 @@ import zenBallPng from "../assets/img/zenBall.png";
 import zenMarkPng from "../assets/img/zenMark.png";
 import firePng from "../assets/img/fire.png";
 import stressMarkPng from "../assets/img/stress_mark.png";
+import volumeOnPng from "../assets/img/volume_on.png";
+import volumeOffPng from "../assets/img/volume_off.png";
 
 export default class BootloaderScene extends Scene {
   constructor() {
@@ -35,6 +37,8 @@ export default class BootloaderScene extends Scene {
     this.load.image("asermaxBurnout", asermaxBurnoutPng);
     this.load.image("background", backgroundPng);
     this.load.image("zenBall", zenBallPng);
+    this.load.image("volumeOn", volumeOnPng);
+    this.load.image("volumeOff", volumeOffPng);
     this.load.spritesheet("zenMark", zenMarkPng, {
       frameWidth: 256,
       frameHeight: 140

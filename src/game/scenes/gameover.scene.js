@@ -23,6 +23,7 @@ export default class GameoverScene extends Phaser.Scene {
     this.createScoreText();
     this.createControls();
     this.createMusic();
+    this.createVolumeControl();
   }
 
   createOpacityContainer() {
@@ -76,7 +77,7 @@ export default class GameoverScene extends Phaser.Scene {
         this.stressMarks.forEach(mark => {
           const x = Phaser.Math.Between(150, 350);
           const y = Phaser.Math.Between(200, 350);
-          const angle = Phaser.Math.Between(-60,60);
+          const angle = Phaser.Math.Between(-60, 60);
           mark.setPosition(x, y);
           mark.setAngle(mark.angle - angle);
         });
@@ -129,10 +130,10 @@ export default class GameoverScene extends Phaser.Scene {
       240,
       540,
       `Tu puntaje fue de ${this.score} zen points`, {
-        fontFamily: "'pxll'",
-        fontSize: 44,
-        color: "#000000"
-      }
+      fontFamily: "'pxll'",
+      fontSize: 44,
+      color: "#000000"
+    }
     );
     text.setAlpha(0.7);
     text.setAlign("center");
@@ -144,13 +145,22 @@ export default class GameoverScene extends Phaser.Scene {
   }
 
   createControls() {
+    this.controlsEnabled = false;
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.controlsEnabled = true;
+      }
+    })
     this.enter = this.input.keyboard.addKey("enter");
     this.space = this.input.keyboard.addKey("space");
     this.enter.onDown = (e) => {
-      this.start();
+      if (this.controlsEnabled)
+        this.start();
     }
     this.space.onDown = (e) => {
-      this.start();
+      if (this.controlsEnabled)
+        this.start();
     }
   }
 
@@ -179,5 +189,27 @@ export default class GameoverScene extends Phaser.Scene {
       this.sound.stopAll();
       this.scene.start("MainScene");
     });
+  }
+
+  createVolumeControl() {
+    const x = this.game.canvas.width - 45;
+    const y = this.game.canvas.height- 40;
+    this.volumeEnabled = true;
+    this.volumeControl = this.add.image(x,y,"volumeOn");
+    this.volumeControl.setScale(0.75);
+    this.volumeControl.setInteractive({
+      cursor: "pointer"
+    });
+    this.volumeControl.on("pointerdown", () => {
+      if (this.volumeEnabled) {
+        this.volumeEnabled = false;
+        this.sound.setMute(true);
+        this.volumeControl.setTexture("volumeOff");
+      } else {
+        this.volumeEnabled = true;
+        this.sound.setMute(false);
+        this.volumeControl.setTexture("volumeOn");
+      }
+    })
   }
 }

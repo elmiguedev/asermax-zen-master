@@ -17,6 +17,7 @@ export default class MainScene extends Scene {
     this.createBurnout();
     this.createAsermax();
     this.createZenMark();
+    this.createVolumeControl();
 
     this.showScene(() => {
       this.createZenBall();
@@ -43,8 +44,8 @@ export default class MainScene extends Scene {
   createProperties() {
     this.zenSpeed = 0.08;
     this.zenMarkWidth = 60;
-    this.zenIncreaseSpeed = 0.003;
-    this.burnoutIncreaseSpeed = 400;
+    this.zenIncreaseSpeed = 0.002;
+    this.burnoutIncreaseSpeed = 50;
     this.score = 0;
   }
 
@@ -133,6 +134,33 @@ export default class MainScene extends Scene {
     })
   }
 
+  reduceBurnout() {
+    this.tweens.add({
+      targets: this.burnout,
+      ease: "Power1",
+      duration: 500,
+      y: {
+        from: this.burnout.y,
+        to: this.burnout.y + this.burnoutIncreaseSpeed/3
+      },
+      onComplete: () => {
+        this.checkBurnout();
+      }
+    })
+    this.tweens.add({
+      targets: this.burnoutBackground,
+      ease: "Power1",
+      duration: 500,
+      y: {
+        from: this.burnoutBackground.y,
+        to: this.burnoutBackground.y + this.burnoutIncreaseSpeed/3
+      },
+      onComplete: () => {
+        this.checkBurnout();
+      }
+    })
+  }
+
   checkBurnout() {
     if (this.burnout.y <= -150) {
       this.gameover();
@@ -189,6 +217,9 @@ export default class MainScene extends Scene {
   zen() {
     if (this.checkZen()) {
       this.score++;
+      if (this.burnout.y < this.game.canvas.height) {
+        this.reduceBurnout();
+      }
       this.updateScore();
       this.invertZenBall();
       this.sound.play("zen");
@@ -229,6 +260,28 @@ export default class MainScene extends Scene {
       duration: 1000,
       onComplete: () => {
         callback();
+      }
+    })
+  }
+
+  createVolumeControl() {
+    const x = this.game.canvas.width - 45;
+    const y = this.game.canvas.height- 40;
+    this.volumeEnabled = true;
+    this.volumeControl = this.add.image(x,y,"volumeOn");
+    this.volumeControl.setScale(0.75);
+    this.volumeControl.setInteractive({
+      cursor: "pointer"
+    });
+    this.volumeControl.on("pointerdown", () => {
+      if (this.volumeEnabled) {
+        this.volumeEnabled = false;
+        this.sound.setMute(true);
+        this.volumeControl.setTexture("volumeOff");
+      } else {
+        this.volumeEnabled = true;
+        this.sound.setMute(false);
+        this.volumeControl.setTexture("volumeOn");
       }
     })
   }

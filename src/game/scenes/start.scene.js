@@ -1,3 +1,4 @@
+import thisTimeValue from "es-abstract/2015/thisTimeValue";
 import Phaser from "phaser"
 
 export default class StartScene extends Phaser.Scene {
@@ -14,6 +15,7 @@ export default class StartScene extends Phaser.Scene {
     this.createKeysText();
     this.createControls();
     this.createMusic();
+    this.createVolumeControl();
   }
 
   createOpacityContainer() {
@@ -177,5 +179,27 @@ export default class StartScene extends Phaser.Scene {
       }
     })
 
+  }
+
+  createVolumeControl() {
+    const x = this.game.canvas.width - 45;
+    const y = this.game.canvas.height- 40;
+    this.volumeEnabled = true;
+    this.volumeControl = this.add.image(x,y,"volumeOn");
+    this.volumeControl.setScale(0.75);
+    this.volumeControl.setInteractive({
+      cursor: "pointer"
+    });
+    this.volumeControl.on("pointerdown", () => {
+      if (this.volumeEnabled) {
+        this.volumeEnabled = false;
+        this.sound.setMute(true);
+        this.volumeControl.setTexture("volumeOff");
+      } else {
+        this.volumeEnabled = true;
+        this.sound.setMute(false);
+        this.volumeControl.setTexture("volumeOn");
+      }
+    })
   }
 }
